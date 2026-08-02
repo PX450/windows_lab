@@ -919,55 +919,133 @@ body, html {
     font-weight: 500;
 }
 
-/* Tablet & Mobile adaptive sizing for Windows 11 Layout */
+/* ==========================================
+   Responsive Styling for All Screen Ratios
+   ========================================== */
+
+/* Narrow Tablets and Landscape Mobile Viewports */
 @media (max-width: 900px) {
     .terminal-window:not(.fullscreen) {
-        width: calc(100% - 40px);
-        height: 70%;
+        width: 92%;
+        height: 75%;
         left: 50%;
-        top: 45%;
+        top: 48%;
         transform: translate(-50%, -50%);
     }
     .taskbar-search {
         display: none; /* Hide search pill */
     }
     .taskbar-left, .taskbar-right {
-        width: 15%;
+        width: 20%;
+    }
+}
+
+/* Portrait Mobile Ratios & Small Screens */
+@media (max-width: 768px) {
+    .desktop-shortcuts {
+        display: none; /* Hide desktop files to prevent window overlap */
     }
 }
 
 @media (max-width: 600px) {
-    .desktop-shortcuts {
-        display: none;
-    }
     .terminal-window:not(.fullscreen) {
-        width: calc(100% - 20px);
-        height: 80%;
+        width: calc(100% - 16px);
+        height: 82%;
         left: 50%;
-        top: 48%;
+        top: 47%;
         transform: translate(-50%, -50%);
     }
-    .taskbar-left, .taskbar-right {
-        display: none; /* Hide tray & widget icons to center taskbar on mobile */
+    
+    /* Center taskbar items dynamically */
+    .taskbar-left {
+        display: none; /* Hide widgets icon */
+    }
+    .taskbar-right {
+        width: auto;
+    }
+    .tray-icon, .taskbar-status-pill, .action-center-btn {
+        display: none; /* Hide status icon pills & action drawer */
+    }
+    .taskbar-clock-pill {
+        display: flex; /* Keep clock visible */
+        padding: 0 8px;
+        height: 30px;
+        font-size: 10px;
     }
     .taskbar-center {
-        width: 100%;
+        flex: 1;
+        justify-content: center;
+        gap: 2px;
     }
     .taskbar-shortcut {
-        width: 38px;
+        width: 36px;
+        height: 36px;
     }
     .taskbar-shortcut svg {
         width: 18px;
         height: 18px;
     }
     .taskbar-shortcut .badge {
-        font-size: 6.5px;
-        padding: 0px 3.5px;
+        font-size: 6px;
+        padding: 0px 3px;
+        top: 1px;
+        right: 1px;
     }
     .terminal-actions {
-        display: none; /* Hide toolbar items */
+        display: none; /* Hide top-bar actions to prevent menu wrapping */
     }
     .notepad-menubar {
-        gap: 8px; /* Tighten menus */
+        gap: 10px;
+        font-size: 11px;
+    }
+    .terminal-body {
+        padding: 12px;
+        font-size: 12.5px;
+    }
+    .code-content {
+        padding: 10px;
+    }
+    .code-content code {
+        font-size: 12px;
+    }
+}
+
+/* Height-based constraints (e.g. mobile landscape: 640x360 or 800x480) */
+@media (max-height: 600px) {
+    .terminal-window:not(.fullscreen) {
+        height: 84%;
+        top: 46%;
+    }
+    .terminal-body {
+        padding: 10px;
+    }
+    .code-content {
+        padding: 8px;
+    }
+    .notepad-menubar {
+        font-size: 11px;
+        height: 22px;
+    }
+    .terminal-tab-bar {
+        height: 28px;
+    }
+    .terminal-tab {
+        height: 24px;
+        font-size: 10px;
+    }
+}
+
+/* Extra small portrait viewports (e.g. iPhone SE: 320px width) */
+@media (max-width: 360px) {
+    .taskbar-shortcut {
+        width: 32px;
+        height: 32px;
+    }
+    .taskbar-shortcut svg {
+        width: 16px;
+        height: 16px;
+    }
+    .taskbar-clock-pill {
+        display: none; /* Hide clock tray on extremely small widths */
     }
 }
