@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 11 Notepad - PHP Code Viewer</title>
+    <!-- Google Fonts for Segoe UI variable-width and monospace -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Segoe+UI:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Windows 11 Desktop Environment -->
+    <div class="windows-desktop">
+        
+        <!-- Desktop Shortcuts Grid (Windows 11 visual) -->
+        <div class="desktop-shortcuts">
+            <div class="desktop-shortcut" id="desktop-thispc">
+                <div class="shortcut-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect width="18" height="12" x="3" y="5" rx="1.5" fill="#0078D7"/>
+                        <path fill="#ffffff" d="M2 18h20v2H2zM9 20h6v1H9z"/>
+                    </svg>
+                </div>
+                <span class="shortcut-text">This PC</span>
+            </div>
+            
+            <div class="desktop-shortcut" id="desktop-recycle">
+                <div class="shortcut-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#5A6C7C" d="M16 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM8 6h8v2H8V6zm8 14H8v-11h8v11z"/>
+                    </svg>
+                </div>
+                <span class="shortcut-text">Recycle Bin</span>
+            </div>
+
+            <div class="desktop-shortcut" id="desktop-readme">
+                <div class="shortcut-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#ffffff" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" stroke="#0078D7" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <span class="shortcut-text">README.txt</span>
+            </div>
+
+            <div class="desktop-shortcut" id="desktop-student-db">
+                <div class="shortcut-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#FFCA28" d="M12 2C6.48 2 2 4 2 6.5s4.48 4.5 10 4.5 10-2 10-4.5S17.52 2 12 2zm0 18c-5.52 0-10-2-10-4.5v3.5c0 2.5 4.48 4.5 10 4.5s10-2 10-4.5v-3.5c0 2.5-4.48 4.5-10 4.5zm0-6c-5.52 0-10-2-10-4.5v3.5c0 2.5 4.48 4.5 10 4.5s10-2 10-4.5v-3.5c0 2.5-4.48 4.5-10 4.5z"/>
+                    </svg>
+                </div>
+                <span class="shortcut-text">college.db</span>
+            </div>
+        </div>
+
+        <!-- Windows 11 Notepad Window -->
+        <div class="terminal-window notepad-window">
+            
+            <!-- Window Title Bar -->
+            <div class="terminal-header">
+                <div class="header-left">
+                    <span class="terminal-title-icon">
+                        <!-- Notepad Icon -->
+                        <svg viewBox="0 0 24 24" class="notepad-logo">
+                            <path fill="#0091EA" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                            <path fill="#FFF" d="M6 6h12v2H6zm0 4h10v2H6zm0 4h12v2H6z"/>
+                        </svg>
+                    </span>
+                    <span id="window-title-text">upload.php - Notepad</span>
+                </div>
+                
+                <!-- Action toolbar (integrated into header) -->
+                <div class="terminal-actions">
+                    <button class="terminal-btn-action" id="action-copy" title="Copy Content">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        Copy
+                    </button>
+                    <button class="terminal-btn-action" id="action-download" title="Save Document">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                        Save
+                    </button>
+                    <button class="terminal-btn-action" id="action-reset" title="Close All Tabs">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L5.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>
+                        Reset
+                    </button>
+                    <button class="terminal-btn-action" id="action-fullscreen" title="Maximize Window">
+                        <svg viewBox="0 0 24 24" id="fullscreen-icon"><path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                        <span id="fullscreen-text">Maximize</span>
+                    </button>
+                </div>
+
+                <!-- Windows 11 window controls -->
+                <div class="window-controls">
+                    <button class="win-control-btn minimize" id="win-min" title="Minimize">
+                        <svg viewBox="0 0 10 1"><line x1="0" y1="0.5" x2="10" y2="0.5" stroke="currentColor" stroke-width="1"/></svg>
+                    </button>
+                    <button class="win-control-btn maximize" id="win-max" title="Maximize">
+                        <svg viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+                    </button>
+                    <button class="win-control-btn close" id="win-close" title="Close">
+                        <svg viewBox="0 0 10 10"><path d="M 1,1 L 9,9 M 9,1 L 1,9" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notepad Menu Options Bar -->
+            <div class="notepad-menubar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">Format</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Help</span>
+            </div>
+
+            <!-- Notepad Tabs Container -->
+            <div class="terminal-tab-bar">
+                <div class="tabs-container" id="terminal-tabs">
+                    <!-- Dynamic tabs rendered here -->
+                </div>
+                <button class="new-tab-btn" title="Open new tab">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </button>
+            </div>
+
+            <!-- Notepad Document Workspace (Notepad Light Theme) -->
+            <div class="terminal-body notepad-body-area" id="terminal-screen">
+                
+                <!-- Notepad Default Landing Greeting -->
+                <div class="terminal-welcome-msg" id="terminal-welcome">
+                    <p>================================================================================</p>
+                    <p>Notepad.exe - Windows 11 PHP Code Viewer</p>
+                    <p>================================================================================</p>
+                    <br>
+                    <p>Active PHP environment: <span class="highlight-blue">PHP 8.1.18 (cli)</span></p>
+                    <p>Active Database: MySQL 8.0 (<span class="highlight-orange">college</span>)</p>
+                    <br>
+                    <p>Instructions:</p>
+                    <p>  * Click any pinned file on the bottom taskbar launcher to open the PHP script.</p>
+                    <p>  * Select the <span class="highlight-green">console.cmd</span> tab to run terminal shell commands (dir, cls, type).</p>
+                    <p>  * Action commands (Copy / Save / Reset) are available in the top bar.</p>
+                    <br>
+                    <p>================================================================================</p>
+                </div>
+
+                <!-- CLI Terminal Log Area (Displayed in dark shell layout inside Notepad console tab) -->
+                <div class="terminal-log" id="terminal-output">
+                    <!-- Shell inputs/outputs printed here -->
+                </div>
+
+                <!-- Notepad Light Code Viewer Area -->
+                <div class="terminal-code-view" id="code-view-container" style="display: none;">
+                    <div class="code-view-header">
+                        <span class="file-path-indicator" id="file-info-label">C:\Users\vivek\codes\untitled.txt</span>
+                        <span class="file-size-indicator" id="file-size-label">0 bytes</span>
+                    </div>
+                    <pre class="code-content"><code id="code-view-area"></code></pre>
+                </div>
+
+                <!-- CLI Input Line (Only displayed when console.cmd tab is open) -->
+                <div class="terminal-input-line" id="console-prompt-line" style="display: none;">
+                    <span class="terminal-prompt">PS C:\Users\vivek\codes&gt;</span>
+                    <div class="input-wrapper">
+                        <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="Type a command (e.g. dir, type upload.php)...">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Windows 11 Centered Taskbar -->
+        <footer class="windows-taskbar">
+            <!-- Widgets on left -->
+            <div class="taskbar-left">
+                <button class="taskbar-btn" id="widget-btn" title="Widgets">
+                    <svg viewBox="0 0 24 24" class="widget-icon">
+                        <rect width="8" height="8" x="4" y="4" fill="#0078D7" rx="1"/>
+                        <rect width="8" height="8" x="14" y="4" fill="#26A69A" rx="1"/>
+                        <rect width="8" height="8" x="4" y="14" fill="#FFA000" rx="1"/>
+                        <rect width="8" height="8" x="14" y="14" fill="#E57373" rx="1"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Centered icons group (Signature Win 11 style) -->
+            <div class="taskbar-center">
+                <!-- Start Button (New Win 11 logo) -->
+                <button class="taskbar-btn" id="start-btn" title="Start Menu">
+                    <svg viewBox="0 0 24 24" class="start-icon">
+                        <path fill="#0078D7" d="M3 3h8.2v8.2H3zm0 9.8h8.2V21H3zm9.8-9.8H21v8.2h-8.2zm0 9.8H21V21h-8.2z"/>
+                    </svg>
+                </button>
+                
+                <!-- Search bar input box -->
+                <div class="taskbar-search" id="start-search-box">
+                    <svg viewBox="0 0 24 24" class="search-icon"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" placeholder="Search" id="search-input-box" disabled>
+                </div>
+                
+                <button class="taskbar-btn" id="taskview-btn" title="Task View">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M2 4h15v16H2zm17 0h2v16h-2zm4 0h1v16h-1z"/></svg>
+                </button>
+
+                <!-- Pinned Program shortcuts -->
+                <div class="taskbar-pinned">
+                    <!-- Notepad app launch shortcut -->
+                    <button class="taskbar-shortcut active" id="task-notepad-btn" title="Notepad (Active)">
+                        <svg viewBox="0 0 24 24">
+                            <rect width="18" height="18" x="3" y="3" rx="3" fill="#00B0FF"/>
+                            <path fill="#FFF" d="M7 7h10v1.5H7zm0 3.5h7v1.5H7zm0 3.5h10v1.5H7z"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="taskbar-separator"></div>
+
+                    <!-- PHP Pinned shortcuts -->
+                    <button class="taskbar-shortcut file-launcher" data-file="upload.php" title="upload.php (File Upload)">
+                        <span class="badge">1</span>
+                        <svg viewBox="0 0 24 24"><path fill="#FFCA28" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    </button>
+
+                    <button class="taskbar-shortcut file-launcher" data-file="page1.php" title="page1.php (Session 1)">
+                        <span class="badge">2A</span>
+                        <svg viewBox="0 0 24 24"><path fill="#81C784" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </button>
+
+                    <button class="taskbar-shortcut file-launcher" data-file="page2.php" title="page2.php (Session 2)">
+                        <span class="badge">2B</span>
+                        <svg viewBox="0 0 24 24"><path fill="#4DB6AC" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </button>
+
+                    <button class="taskbar-shortcut file-launcher" data-file="search_student.php" title="search_student.php (Search)">
+                        <span class="badge">3</span>
+                        <svg viewBox="0 0 24 24"><path fill="#64B5F6" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5c0-3.59-2.91-6.5-6.5-6.5S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </button>
+
+                    <button class="taskbar-shortcut file-launcher" data-file="string_ops.php" title="string_ops.php (String Operations)">
+                        <span class="badge">4</span>
+                        <svg viewBox="0 0 24 24"><path fill="#BA68C8" d="M9 4v3h5v12h3V7h5V4H9zm-6 8h5v3H6v4h5v3H3v-10z"/></svg>
+                    </button>
+
+                    <button class="taskbar-shortcut file-launcher" data-file="insert_student.php" title="insert_student.php (Insert)">
+                        <span class="badge">5</span>
+                        <svg viewBox="0 0 24 24"><path fill="#E57373" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Taskbar right pills -->
+            <div class="taskbar-right">
+                <button class="tray-icon" title="Show hidden icons">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+                </button>
+                
+                <div class="taskbar-status-pill" title="Network, Volume, and Battery">
+                    <span class="tray-icon-sm"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z"/></svg></span>
+                    <span class="tray-icon-sm"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg></span>
+                    <span class="tray-icon-sm"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M17 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/></svg></span>
+                </div>
+                
+                <!-- Clock Tray Pill -->
+                <div class="taskbar-clock-pill" id="taskbar-clock-tray" title="Date and Time">
+                    <div id="tray-time">12:00 AM</div>
+                    <div id="tray-date">08/03/2026</div>
+                </div>
+                
+                <button class="action-center-btn" id="action-center" title="Notifications">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                </button>
+                
+                <div class="show-desktop-strip" id="desktop-strip" title="Minimize all windows"></div>
+            </div>
+        </footer>
+
+        <!-- Notification Toast -->
+        <div class="notification-toast" id="toast">
+            <span class="toast-icon">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </span>
+            <span class="toast-message" id="toast-text">Action succeeded</span>
+        </div>
+
+    </div>
+</body>
+</html>

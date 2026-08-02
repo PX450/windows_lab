@@ -1,0 +1,973 @@
+/* Windows 11 Theme & Notepad Layout System */
+:root {
+    /* Windows 11 Colors */
+    --win-blue: #0078d7;           /* Windows 11 Blue */
+    --win-blue-hover: #1b85df;
+    --win-taskbar-bg: rgba(32, 32, 32, 0.75);
+    --win-border-light: rgba(0, 0, 0, 0.08);
+    --win-border-dark: rgba(255, 255, 255, 0.12);
+    
+    /* Notepad Light Theme Palette */
+    --notepad-bg: #ffffff;
+    --notepad-fg: #1e1e1e;
+    --notepad-header: #f3f3f3;
+    --notepad-tabs: #e5e5e5;
+    --notepad-border: #d9d9d9;
+    
+    /* Notepad Light Mode Syntax Highlighting (VS Light Theme) */
+    --syntax-comment: #008000;     /* Green */
+    --syntax-keyword: #0000ff;     /* Blue */
+    --syntax-string: #a31515;      /* Dark Red */
+    --syntax-variable: #001080;    /* Navy Blue */
+    --syntax-function: #795e26;    /* Brown/Gold */
+    --syntax-tag: #800000;         /* Crimson */
+    --syntax-attr: #e50000;        /* Red */
+    --syntax-text: #1e1e1e;
+    
+    /* Terminal Dark Palette (active only in console tab) */
+    --term-bg: #0c0c0c;
+    --term-fg: #dfdbd2;
+    --term-syntax-comment: #6272a4;
+    --term-syntax-keyword: #ff79c6;
+    --term-syntax-string: #f1fa8c;
+    --term-syntax-variable: #8be9fd;
+    --term-syntax-function: #50fa7b;
+    --term-syntax-tag: #ff79c6;
+    --term-syntax-attr: #50fa7b;
+    
+    /* Metrics */
+    --taskbar-height: 48px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    color: #ffffff;
+}
+
+/* Windows 11 Bloom Wallpaper (Pure CSS Gradient & Radial Glow Layering) */
+.windows-desktop {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(135, 206, 250, 0.45) 0%, transparent 50%),
+                radial-gradient(circle at 45% 42%, rgba(30, 144, 255, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 55% 58%, rgba(138, 43, 226, 0.25) 0%, transparent 55%),
+                linear-gradient(135deg, #0b111e 0%, #030408 100%);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+}
+
+/* Desktop Shortcuts (Windows 11 Alignment) */
+.desktop-shortcuts {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 10;
+}
+
+.desktop-shortcut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.1s, border-color 0.1s;
+}
+
+.desktop-shortcut:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.desktop-shortcut:active {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.shortcut-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shortcut-icon svg {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+}
+
+.shortcut-text {
+    margin-top: 5px;
+    font-size: 11px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.85);
+    max-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Windows 11 Rounded Notepad Window */
+.terminal-window {
+    position: absolute;
+    top: calc(50% - 24px); /* Center vertical offset for Windows 11 taskbar */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 820px;
+    height: 540px;
+    background-color: var(--notepad-bg);
+    border: 1px solid var(--notepad-border);
+    border-radius: 12px; /* Signature rounded corners */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 20;
+    transition: width 0.2s, height 0.2s, top 0.2s, left 0.2s, transform 0.2s, border-radius 0.2s;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - var(--taskbar-height) - 40px);
+}
+
+/* Titlebar section */
+.terminal-header {
+    height: 36px;
+    background-color: var(--notepad-header);
+    border-bottom: 1px solid var(--notepad-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 12px;
+    z-index: 30;
+    color: #1e1e1e;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 400;
+}
+
+.terminal-title-icon svg.notepad-logo {
+    width: 15px;
+    height: 15px;
+    display: block;
+}
+
+/* Action controls in titlebar */
+.terminal-actions {
+    display: flex;
+    align-items: center;
+}
+
+.terminal-btn-action {
+    background-color: transparent;
+    border: none;
+    color: #555555;
+    font-size: 11.5px;
+    padding: 0 10px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.1s, color 0.1s;
+    font-family: inherit;
+}
+
+.terminal-btn-action:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #000000;
+}
+
+.terminal-btn-action svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* Windows 11 flat right buttons */
+.window-controls {
+    display: flex;
+    height: 36px;
+}
+
+.win-control-btn {
+    width: 46px;
+    height: 36px;
+    background-color: transparent;
+    border: none;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.win-control-btn svg {
+    width: 10px;
+    height: 10px;
+}
+
+.win-control-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.win-control-btn.close:hover {
+    background-color: #e81123;
+    color: #ffffff;
+}
+
+/* Notepad Menu options (File, Edit, Format, View, Help) */
+.notepad-menubar {
+    height: 26px;
+    background-color: var(--notepad-header);
+    border-bottom: 1px solid var(--notepad-border);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 16px;
+    font-size: 12px;
+    color: #202020;
+    z-index: 25;
+}
+
+.menu-item {
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background-color 0.1s;
+}
+
+.menu-item:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Notepad Tab Bar */
+.terminal-tab-bar {
+    height: 32px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--notepad-border);
+    padding-left: 10px;
+}
+
+.tabs-container {
+    display: flex;
+    align-items: flex-end;
+    overflow-x: auto;
+    height: 100%;
+}
+
+.terminal-tab {
+    height: 28px;
+    padding: 0 12px;
+    background-color: var(--notepad-tabs);
+    border-top: 1px solid var(--notepad-border);
+    border-right: 1px solid var(--notepad-border);
+    border-left: 1px solid var(--notepad-border);
+    border-radius: 4px 4px 0 0;
+    font-size: 11px;
+    font-family: inherit;
+    color: #555555;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    max-width: 140px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 2px;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.terminal-tab:hover {
+    background-color: #ececec;
+    color: #000000;
+}
+
+.terminal-tab.active {
+    background-color: var(--notepad-bg);
+    color: #000000;
+    border-top: 2px solid var(--win-blue);
+    border-bottom: 1px solid var(--notepad-bg);
+    margin-bottom: -1px;
+    height: 30px;
+}
+
+.tab-close {
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: pointer;
+    color: #888888;
+    border-radius: 2px;
+}
+
+.tab-close:hover {
+    background-color: rgba(0,0,0,0.08);
+    color: #ff3b30;
+}
+
+.new-tab-btn {
+    background: transparent;
+    border: none;
+    color: #555555;
+    width: 28px;
+    height: 24px;
+    margin-bottom: 2px;
+    margin-left: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.new-tab-btn:hover {
+    background-color: rgba(0,0,0,0.05);
+    color: #000000;
+}
+
+.new-tab-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Fullscreen Mode properties */
+.terminal-window.fullscreen {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100vh - var(--taskbar-height)) !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    transform: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    z-index: 95 !important;
+}
+
+/* Notepad Workspace Container */
+.terminal-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: var(--notepad-bg);
+    color: var(--notepad-fg);
+    font-family: Consolas, 'Lucida Console', Monaco, monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-body::-webkit-scrollbar,
+.tabs-container::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+}
+
+.terminal-body::-webkit-scrollbar-track,
+.tabs-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.terminal-body::-webkit-scrollbar-thumb,
+.tabs-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+    border-radius: 4px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover,
+.tabs-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.3);
+}
+
+/* Dynamic dark console styles (Only active in console.cmd tab) */
+.terminal-body.console-active {
+    background-color: var(--term-bg) !important;
+    color: var(--term-fg) !important;
+}
+
+.terminal-body.console-active::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.terminal-body.console-active::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Highlights */
+.highlight-green { color: #2e7d32; font-weight: bold; }
+.highlight-orange { color: #e65100; font-weight: bold; }
+.highlight-blue { color: #1565c0; font-weight: bold; }
+
+/* Console open adjustments */
+.terminal-body.console-active .highlight-green { color: #50fa7b; }
+.terminal-body.console-active .highlight-orange { color: #ffb86c; }
+.terminal-body.console-active .highlight-blue { color: #8be9fd; }
+
+/* Code Viewer Frame */
+.terminal-code-view {
+    border: 1px solid var(--notepad-border);
+    background-color: #fafafa;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.terminal-body.console-active .terminal-code-view {
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.code-view-header {
+    background-color: #f3f3f3;
+    border-bottom: 1px solid var(--notepad-border);
+    padding: 6px 12px;
+    font-size: 11.5px;
+    color: #666666;
+    display: flex;
+    justify-content: space-between;
+}
+
+.terminal-body.console-active .code-view-header {
+    background-color: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.08);
+    color: #99aab8;
+}
+
+.code-content {
+    padding: 16px;
+    overflow-x: auto;
+}
+
+.code-content code {
+    white-space: pre;
+    font-family: inherit;
+    font-size: 13.5px;
+    display: block;
+    user-select: text;
+}
+
+/* Prompt CLI Input details */
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.terminal-prompt {
+    color: #000000;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.terminal-body.console-active .terminal-prompt {
+    color: #ffffff;
+}
+
+.input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#terminal-input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+}
+
+.input-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 8px;
+    height: 16px;
+    background-color: #000000;
+    animation: notepad-cursor-blink 1s step-end infinite;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.terminal-body.console-active .input-wrapper::after {
+    background-color: #ffffff;
+    animation: console-cursor-blink 1s step-end infinite;
+}
+
+@keyframes notepad-cursor-blink {
+    from, to { background-color: transparent; }
+    50% { background-color: #000000; }
+}
+
+@keyframes console-cursor-blink {
+    from, to { background-color: transparent; }
+    50% { background-color: #ffffff; }
+}
+
+/* Outputs log list */
+.terminal-log {
+    margin-bottom: 12px;
+}
+
+.log-entry {
+    margin-bottom: 5px;
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.log-entry.command {
+    color: #000000;
+    font-weight: bold;
+}
+
+.terminal-body.console-active .log-entry.command {
+    color: #ffffff;
+}
+
+.log-entry.error { color: #c62828; }
+.log-entry.success { color: #2e7d32; }
+
+.terminal-body.console-active .log-entry.error { color: #ff5555; }
+.terminal-body.console-active .log-entry.success { color: #50fa7b; }
+
+/* Light Theme Syntax (Default Notepad view) */
+.terminal-code-view .token.comment { color: var(--syntax-comment); font-style: italic; }
+.terminal-code-view .token.keyword { color: var(--syntax-keyword); font-weight: bold; }
+.terminal-code-view .token.string { color: var(--syntax-string); }
+.terminal-code-view .token.variable { color: var(--syntax-variable); }
+.terminal-code-view .token.function { color: var(--syntax-function); }
+.terminal-code-view .token.tag { color: var(--syntax-tag); }
+.terminal-code-view .token.attr-name { color: var(--syntax-attr); }
+.terminal-code-view .token.attr-value { color: var(--syntax-string); }
+.terminal-code-view .token.text { color: var(--syntax-text); }
+
+/* Dark Theme Syntax (Active in PowerShell console mode) */
+.terminal-body.console-active .terminal-code-view .token.comment { color: var(--term-syntax-comment); }
+.terminal-body.console-active .terminal-code-view .token.keyword { color: var(--term-syntax-keyword); }
+.terminal-body.console-active .terminal-code-view .token.string { color: var(--term-syntax-string); }
+.terminal-body.console-active .terminal-code-view .token.variable { color: var(--term-syntax-variable); }
+.terminal-body.console-active .terminal-code-view .token.function { color: var(--term-syntax-function); }
+.terminal-body.console-active .terminal-code-view .token.tag { color: var(--term-syntax-tag); }
+.terminal-body.console-active .terminal-code-view .token.attr-name { color: var(--term-syntax-attr); }
+.terminal-body.console-active .terminal-code-view .token.attr-value { color: var(--term-syntax-string); }
+
+/* Windows 11 Taskbar Centered Style */
+.windows-taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--taskbar-height);
+    background-color: var(--win-taskbar-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    padding: 0 12px;
+}
+
+.taskbar-left {
+    width: 25%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.taskbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+}
+
+.taskbar-right {
+    width: 25%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+}
+
+/* Button & icons styling */
+.taskbar-btn {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.taskbar-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.taskbar-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Windows 11 search pill container */
+.taskbar-search {
+    display: flex;
+    align-items: center;
+    width: 140px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 0 10px;
+    gap: 6px;
+    color: #ffffff;
+    font-size: 12px;
+    border: 1px solid transparent;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.taskbar-search:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.taskbar-search svg {
+    width: 14px;
+    height: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.taskbar-search input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+}
+
+.taskbar-search input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Pinned app shortcut layouts */
+.taskbar-pinned {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 4px;
+}
+
+.taskbar-separator {
+    width: 1px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin: 0 6px;
+}
+
+.taskbar-shortcut {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: #dfdbd2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.taskbar-shortcut:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.taskbar-shortcut svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* Windows 11 bottom dot indicator for active applications */
+.taskbar-shortcut.active::after,
+.taskbar-shortcut[active]::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 3px;
+    background-color: var(--win-blue);
+    border-radius: 2px;
+    transition: width 0.15s;
+}
+
+.taskbar-shortcut[active] {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.taskbar-shortcut[active]::after {
+    width: 12px;
+}
+
+.taskbar-shortcut .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: var(--win-blue);
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: bold;
+    padding: 0px 3px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.5);
+}
+
+/* Tray pills indicators */
+.tray-icon {
+    width: 30px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tray-icon:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.tray-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Combined Status Indicators Pill */
+.taskbar-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    height: 34px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 17px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.taskbar-status-pill:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.tray-icon-sm svg {
+    width: 13px;
+    height: 13px;
+    color: #ffffff;
+    display: block;
+}
+
+/* Combined Clock Indicator Pill */
+.taskbar-clock-pill {
+    padding: 0 12px;
+    height: 34px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    color: #ffffff;
+    cursor: pointer;
+    line-height: 1.35;
+    transition: background-color 0.15s;
+}
+
+.taskbar-clock-pill:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+#tray-time, #tray-date {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.action-center-btn {
+    width: 34px;
+    height: 34px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.action-center-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.action-center-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.show-desktop-strip {
+    width: 4px;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Windows 11 Toast Notifications styling (light round borders) */
+.notification-toast {
+    position: absolute;
+    bottom: calc(var(--taskbar-height) + 12px);
+    right: 12px;
+    transform: translateY(120%);
+    background-color: rgba(32, 32, 32, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--win-blue);
+    border-radius: 8px; /* Rounded notification boxes */
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    opacity: 0;
+    transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.2s;
+    z-index: 10000;
+}
+
+.notification-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-icon {
+    width: 18px;
+    height: 18px;
+    color: #50fa7b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.toast-message {
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+/* Tablet & Mobile adaptive sizing for Windows 11 Layout */
+@media (max-width: 900px) {
+    .terminal-window:not(.fullscreen) {
+        width: calc(100% - 40px);
+        height: 70%;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%, -50%);
+    }
+    .taskbar-search {
+        display: none; /* Hide search pill */
+    }
+    .taskbar-left, .taskbar-right {
+        width: 15%;
+    }
+}
+
+@media (max-width: 600px) {
+    .desktop-shortcuts {
+        display: none;
+    }
+    .terminal-window:not(.fullscreen) {
+        width: calc(100% - 20px);
+        height: 80%;
+        left: 50%;
+        top: 48%;
+        transform: translate(-50%, -50%);
+    }
+    .taskbar-left, .taskbar-right {
+        display: none; /* Hide tray & widget icons to center taskbar on mobile */
+    }
+    .taskbar-center {
+        width: 100%;
+    }
+    .taskbar-shortcut {
+        width: 38px;
+    }
+    .taskbar-shortcut svg {
+        width: 18px;
+        height: 18px;
+    }
+    .taskbar-shortcut .badge {
+        font-size: 6.5px;
+        padding: 0px 3.5px;
+    }
+    .terminal-actions {
+        display: none; /* Hide toolbar items */
+    }
+    .notepad-menubar {
+        gap: 8px; /* Tighten menus */
+    }
+}
